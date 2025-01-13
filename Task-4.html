@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Authentication</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background: linear-gradient(135deg, #74ebd5, #ACB6E5);
+            color: #fff;
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            background: rgba(0, 0, 0, 0.7);
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+            padding: 30px;
+        }
+
+        h1 {
+            color: #ffcc00;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .form-control {
+            background: rgba(255, 255, 255, 0.2);
+            color: #fff;
+            border-radius: 8px;
+        }
+
+        .btn-custom {
+            background-color: #ffcc00;
+            border: none;
+            color: #000;
+            font-weight: bold;
+        }
+
+        .btn-custom:hover {
+            background-color: #ff9900;
+        }
+
+        .error-msg {
+            color: #ff4d4d;
+        }
+    </style>
+</head>
+<body>
+    <div class="container text-center">
+        <h1>Login Authentication</h1>
+        <div id="registerDiv">
+            <h3>Register</h3>
+            <input type="text" id="registerUsername" class="form-control my-3" placeholder="Username">
+            <input type="password" id="registerPassword" class="form-control my-3" placeholder="Password">
+            <button class="btn btn-custom btn-block" onclick="register()">Register</button>
+            <p id="registerError" class="error-msg"></p>
+        </div>
+        <div id="loginDiv" style="display: none;">
+            <h3>Login</h3>
+            <input type="text" id="loginUsername" class="form-control my-3" placeholder="Username">
+            <input type="password" id="loginPassword" class="form-control my-3" placeholder="Password">
+            <button class="btn btn-custom btn-block" onclick="login()">Login</button>
+            <p id="loginError" class="error-msg"></p>
+        </div>
+        <div id="securedPage" style="display: none;">
+            <h3>Welcome, <span id="user"></span>!</h3>
+            <button class="btn btn-custom btn-block" onclick="logout()">Logout</button>
+        </div>
+    </div>
+    <script>
+        function register() {
+            const username = document.getElementById('registerUsername').value;
+            const password = document.getElementById('registerPassword').value;
+            if (username && password) {
+                localStorage.setItem('username', username);
+                localStorage.setItem('password', password);
+                document.getElementById('registerDiv').style.display = 'none';
+                document.getElementById('loginDiv').style.display = 'block';
+            } else {
+                document.getElementById('registerError').innerText = 'Please fill out all fields.';
+            }
+        }
+
+        function login() {
+            const username = document.getElementById('loginUsername').value;
+            const password = document.getElementById('loginPassword').value;
+            const storedUsername = localStorage.getItem('username');
+            const storedPassword = localStorage.getItem('password');
+            if (username === storedUsername && password === storedPassword) {
+                document.getElementById('loginDiv').style.display = 'none';
+                document.getElementById('securedPage').style.display = 'block';
+                document.getElementById('user').innerText = username;
+            } else {
+                document.getElementById('loginError').innerText = 'Invalid username or password.';
+            }
+        }
+
+        function logout() {
+            document.getElementById('securedPage').style.display = 'none';
+            document.getElementById('loginDiv').style.display = 'block';
+        }
+    </script>
+</body>
+</html>
